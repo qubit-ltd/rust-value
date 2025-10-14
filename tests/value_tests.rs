@@ -56,7 +56,7 @@ fn test_value_set_type() {
 #[test]
 fn test_value_type_check() {
     let v = Value::Bool(true);
-    assert_eq!(v.get_bool().unwrap(), true);
+    assert!(v.get_bool().unwrap());
     assert!(matches!(
         v.get_int32(),
         Err(ValueError::TypeMismatch { .. })
@@ -74,13 +74,13 @@ fn test_value_type_conversion() {
 #[test]
 fn test_value_bool_conversion() {
     let v1 = Value::Int32(1);
-    assert_eq!(v1.as_bool().unwrap(), true);
+    assert!(v1.as_bool().unwrap());
 
     let v2 = Value::Int32(0);
-    assert_eq!(v2.as_bool().unwrap(), false);
+    assert!(!v2.as_bool().unwrap());
 
     let v3 = Value::String("true".to_string());
-    assert_eq!(v3.as_bool().unwrap(), true);
+    assert!(v3.as_bool().unwrap());
 }
 
 #[test]
@@ -98,8 +98,8 @@ fn test_value_numeric_types() {
     let v2 = Value::UInt32(12345);
     assert_eq!(v2.get_uint32().unwrap(), 12345);
 
-    let v3 = Value::Float32(3.14);
-    assert!((v3.get_float32().unwrap() - 3.14).abs() < 0.001);
+    let v3 = Value::Float32(3.5);
+    assert!((v3.get_float32().unwrap() - 3.5).abs() < 0.001);
 }
 
 #[test]
@@ -124,7 +124,7 @@ fn test_value_generic_get() {
     // Test boolean values
     let v = Value::Bool(true);
     let b: bool = v.get().unwrap();
-    assert_eq!(b, true);
+    assert!(b);
 
     // Test strings
     let v = Value::String("hello".to_string());
@@ -132,9 +132,9 @@ fn test_value_generic_get() {
     assert_eq!(s, "hello");
 
     // Test floating point
-    let v = Value::Float64(3.14);
+    let v = Value::Float64(3.5);
     let f: f64 = v.get().unwrap();
-    assert!((f - 3.14).abs() < 0.001);
+    assert!((f - 3.5).abs() < 0.001);
 }
 
 #[test]
@@ -147,7 +147,7 @@ fn test_value_generic_get_type_mismatch() {
 #[test]
 fn test_value_generic_get_all_types() {
     // Test all basic types
-    assert_eq!(Value::Bool(true).get::<bool>().unwrap(), true);
+    assert!(Value::Bool(true).get::<bool>().unwrap());
     assert_eq!(Value::Char('A').get::<char>().unwrap(), 'A');
     assert_eq!(Value::Int8(8).get::<i8>().unwrap(), 8);
     assert_eq!(Value::Int16(16).get::<i16>().unwrap(), 16);
@@ -159,8 +159,8 @@ fn test_value_generic_get_all_types() {
     assert_eq!(Value::UInt32(32).get::<u32>().unwrap(), 32);
     assert_eq!(Value::UInt64(64).get::<u64>().unwrap(), 64);
     assert_eq!(Value::UInt128(128).get::<u128>().unwrap(), 128);
-    assert!((Value::Float32(3.14).get::<f32>().unwrap() - 3.14).abs() < 0.001);
-    assert!((Value::Float64(3.14).get::<f64>().unwrap() - 3.14).abs() < 0.001);
+    assert!((Value::Float32(3.5).get::<f32>().unwrap() - 3.5).abs() < 0.001);
+    assert!((Value::Float64(3.5).get::<f64>().unwrap() - 3.5).abs() < 0.001);
     assert_eq!(
         Value::String("test".to_string()).get::<String>().unwrap(),
         "test"
@@ -174,7 +174,7 @@ fn test_value_new() {
     assert_eq!(v.get_int32().unwrap(), 42);
 
     let v = Value::new(true);
-    assert_eq!(v.get_bool().unwrap(), true);
+    assert!(v.get_bool().unwrap());
 
     let v = Value::new("hello".to_string());
     assert_eq!(v.get_string().unwrap(), "hello");
@@ -195,7 +195,7 @@ fn test_value_new_various_types() {
     // Test new() support for various types
 
     // Basic types
-    assert_eq!(Value::new(true).get_bool().unwrap(), true);
+    assert!(Value::new(true).get_bool().unwrap());
     assert_eq!(Value::new('A').get_char().unwrap(), 'A');
 
     // Integers
@@ -203,8 +203,8 @@ fn test_value_new_various_types() {
     assert_eq!(Value::new(100u64).get_uint64().unwrap(), 100);
 
     // Floating point
-    assert!((Value::new(3.14f32).get_float32().unwrap() - 3.14).abs() < 0.001);
-    assert!((Value::new(2.718f64).get_float64().unwrap() - 2.718).abs() < 0.001);
+    assert!((Value::new(3.5f32).get_float32().unwrap() - 3.5).abs() < 0.001);
+    assert!((Value::new(2.5f64).get_float64().unwrap() - 2.5).abs() < 0.001);
 
     // Strings (String vs &str)
     assert_eq!(
@@ -223,7 +223,7 @@ fn test_value_set_methods() {
 
     let mut value = Value::Empty(DataType::Bool);
     value.set_bool(true).unwrap();
-    assert_eq!(value.get_bool().unwrap(), true);
+    assert!(value.get_bool().unwrap());
 
     let mut value = Value::Empty(DataType::String);
     value.set_string("hello".to_string()).unwrap();
@@ -243,7 +243,7 @@ fn test_value_generic_set() {
 
     let mut value = Value::Empty(DataType::Bool);
     value.set(true).unwrap();
-    assert_eq!(value.get_bool().unwrap(), true);
+    assert!(value.get_bool().unwrap());
 }
 
 #[test]
@@ -251,7 +251,7 @@ fn test_value_set_all_types() {
     // Test set method for all types
     let mut value = Value::Empty(DataType::Bool);
     value.set_bool(true).unwrap();
-    assert_eq!(value.get_bool().unwrap(), true);
+    assert!(value.get_bool().unwrap());
 
     let mut value = Value::Empty(DataType::Char);
     value.set_char('A').unwrap();
@@ -286,12 +286,12 @@ fn test_value_set_all_types() {
     assert_eq!(value.get_uint32().unwrap(), 4294967295);
 
     let mut value = Value::Empty(DataType::Float32);
-    value.set_float32(3.14f32).unwrap();
-    assert_eq!(value.get_float32().unwrap(), 3.14);
+    value.set_float32(3.5f32).unwrap();
+    assert_eq!(value.get_float32().unwrap(), 3.5);
 
     let mut value = Value::Empty(DataType::Float64);
-    value.set_float64(3.14159265359f64).unwrap();
-    assert_eq!(value.get_float64().unwrap(), 3.14159265359);
+    value.set_float64(3.5f64).unwrap();
+    assert_eq!(value.get_float64().unwrap(), 3.5);
 }
 
 #[test]
@@ -484,32 +484,32 @@ fn test_value_datetime_to_string() {
 #[test]
 fn test_value_as_bool_all_branches() {
     // Test all integer types to boolean conversion
-    assert_eq!(Value::Int8(1).as_bool().unwrap(), true);
-    assert_eq!(Value::Int8(0).as_bool().unwrap(), false);
+    assert!(Value::Int8(1).as_bool().unwrap());
+    assert!(!Value::Int8(0).as_bool().unwrap());
 
-    assert_eq!(Value::Int16(1).as_bool().unwrap(), true);
-    assert_eq!(Value::Int16(0).as_bool().unwrap(), false);
+    assert!(Value::Int16(1).as_bool().unwrap());
+    assert!(!Value::Int16(0).as_bool().unwrap());
 
-    assert_eq!(Value::Int64(1).as_bool().unwrap(), true);
-    assert_eq!(Value::Int64(0).as_bool().unwrap(), false);
+    assert!(Value::Int64(1).as_bool().unwrap());
+    assert!(!Value::Int64(0).as_bool().unwrap());
 
-    assert_eq!(Value::Int128(1).as_bool().unwrap(), true);
-    assert_eq!(Value::Int128(0).as_bool().unwrap(), false);
+    assert!(Value::Int128(1).as_bool().unwrap());
+    assert!(!Value::Int128(0).as_bool().unwrap());
 
-    assert_eq!(Value::UInt8(1).as_bool().unwrap(), true);
-    assert_eq!(Value::UInt8(0).as_bool().unwrap(), false);
+    assert!(Value::UInt8(1).as_bool().unwrap());
+    assert!(!Value::UInt8(0).as_bool().unwrap());
 
-    assert_eq!(Value::UInt16(1).as_bool().unwrap(), true);
-    assert_eq!(Value::UInt16(0).as_bool().unwrap(), false);
+    assert!(Value::UInt16(1).as_bool().unwrap());
+    assert!(!Value::UInt16(0).as_bool().unwrap());
 
-    assert_eq!(Value::UInt32(1).as_bool().unwrap(), true);
-    assert_eq!(Value::UInt32(0).as_bool().unwrap(), false);
+    assert!(Value::UInt32(1).as_bool().unwrap());
+    assert!(!Value::UInt32(0).as_bool().unwrap());
 
-    assert_eq!(Value::UInt64(1).as_bool().unwrap(), true);
-    assert_eq!(Value::UInt64(0).as_bool().unwrap(), false);
+    assert!(Value::UInt64(1).as_bool().unwrap());
+    assert!(!Value::UInt64(0).as_bool().unwrap());
 
-    assert_eq!(Value::UInt128(1).as_bool().unwrap(), true);
-    assert_eq!(Value::UInt128(0).as_bool().unwrap(), false);
+    assert!(Value::UInt128(1).as_bool().unwrap());
+    assert!(!Value::UInt128(0).as_bool().unwrap());
 
     // Test string to boolean conversion failure cases
     let value = Value::String("invalid".to_string());
@@ -642,8 +642,8 @@ fn test_value_as_int64_all_branches() {
 #[test]
 fn test_value_as_float64_all_branches() {
     // Test floating point conversion
-    assert_eq!(Value::Float32(3.14).as_float64().unwrap(), 3.14f32 as f64);
-    assert_eq!(Value::Float64(2.718).as_float64().unwrap(), 2.718);
+    assert_eq!(Value::Float32(3.5).as_float64().unwrap(), 3.5f32 as f64);
+    assert_eq!(Value::Float64(2.5).as_float64().unwrap(), 2.5);
 
     // Test integers to floating point conversion
     assert_eq!(Value::Int8(42).as_float64().unwrap(), 42.0);
@@ -658,10 +658,7 @@ fn test_value_as_float64_all_branches() {
     assert_eq!(Value::UInt64(1000000).as_float64().unwrap(), 1000000.0);
 
     // Test string to floating point conversion
-    assert_eq!(
-        Value::String("3.14159".to_string()).as_float64().unwrap(),
-        3.14159
-    );
+    assert_eq!(Value::String("3.5".to_string()).as_float64().unwrap(), 3.5);
 
     // Test string to floating point conversion failure
     let value = Value::String("invalid".to_string());
@@ -714,14 +711,8 @@ fn test_value_as_string_all_types() {
     assert_eq!(Value::UInt64(1000000).as_string().unwrap(), "1000000");
     assert_eq!(Value::UInt128(123456789).as_string().unwrap(), "123456789");
 
-    assert!(Value::Float32(3.14)
-        .as_string()
-        .unwrap()
-        .starts_with("3.14"));
-    assert!(Value::Float64(2.718)
-        .as_string()
-        .unwrap()
-        .starts_with("2.718"));
+    assert!(Value::Float32(3.5).as_string().unwrap().starts_with("3.5"));
+    assert!(Value::Float64(2.5).as_string().unwrap().starts_with("2.5"));
 
     assert_eq!(
         Value::String("hello".to_string()).as_string().unwrap(),
@@ -917,7 +908,7 @@ fn test_value_setter_type_mismatch() {
     // Test all setters handling of Empty values
     let mut value = Value::Empty(DataType::String);
     value.set_bool(true).unwrap();
-    assert_eq!(value.get_bool().unwrap(), true);
+    assert!(value.get_bool().unwrap());
 
     let mut value = Value::Empty(DataType::Bool);
     value.set_char('X').unwrap();
@@ -932,12 +923,12 @@ fn test_value_setter_type_mismatch() {
     assert_eq!(value.get_int16().unwrap(), 1000);
 
     let mut value = Value::Empty(DataType::Int16);
-    value.set_float32(3.14).unwrap();
-    assert_eq!(value.get_float32().unwrap(), 3.14);
+    value.set_float32(3.5).unwrap();
+    assert_eq!(value.get_float32().unwrap(), 3.5);
 
     let mut value = Value::Empty(DataType::Float32);
-    value.set_float64(2.718).unwrap();
-    assert_eq!(value.get_float64().unwrap(), 2.718);
+    value.set_float64(2.5).unwrap();
+    assert_eq!(value.get_float64().unwrap(), 2.5);
 }
 
 #[test]
@@ -1446,10 +1437,10 @@ fn test_as_float64_uint128_conversion_failed() {
 fn test_as_bool_direct_bool_type() {
     // Test case where type itself is Bool
     let value_true = Value::Bool(true);
-    assert_eq!(value_true.as_bool().unwrap(), true);
+    assert!(value_true.as_bool().unwrap());
 
     let value_false = Value::Bool(false);
-    assert_eq!(value_false.as_bool().unwrap(), false);
+    assert!(!value_false.as_bool().unwrap());
 }
 
 #[test]
@@ -1471,10 +1462,10 @@ fn test_as_bool_string_parse_error() {
 
     // Test valid bool strings
     let value_true = Value::String("true".to_string());
-    assert_eq!(value_true.as_bool().unwrap(), true);
+    assert!(value_true.as_bool().unwrap());
 
     let value_false = Value::String("false".to_string());
-    assert_eq!(value_false.as_bool().unwrap(), false);
+    assert!(!value_false.as_bool().unwrap());
 }
 
 #[test]
@@ -1830,11 +1821,11 @@ fn test_as_int64_string_parse_error() {
 #[test]
 fn test_as_float64_direct_float64_type() {
     // Test case where type itself is Float64
-    let value = Value::Float64(3.14159);
-    assert_eq!(value.as_float64().unwrap(), 3.14159);
+    let value = Value::Float64(3.5);
+    assert_eq!(value.as_float64().unwrap(), 3.5);
 
-    let value_negative = Value::Float64(-2.71828);
-    assert_eq!(value_negative.as_float64().unwrap(), -2.71828);
+    let value_negative = Value::Float64(-2.5);
+    assert_eq!(value_negative.as_float64().unwrap(), -2.5);
 
     let value_zero = Value::Float64(0.0);
     assert_eq!(value_zero.as_float64().unwrap(), 0.0);
@@ -1883,11 +1874,11 @@ fn test_as_float64_string_parse_error() {
     ));
 
     // Valid floating point string should succeed
-    let value = Value::String("3.14159".to_string());
-    assert_eq!(value.as_float64().unwrap(), 3.14159);
+    let value = Value::String("3.5".to_string());
+    assert_eq!(value.as_float64().unwrap(), 3.5);
 
-    let value_negative = Value::String("-2.71828".to_string());
-    assert_eq!(value_negative.as_float64().unwrap(), -2.71828);
+    let value_negative = Value::String("-2.5".to_string());
+    assert_eq!(value_negative.as_float64().unwrap(), -2.5);
 
     let value_scientific = Value::String("1.23e10".to_string());
     assert_eq!(value_scientific.as_float64().unwrap(), 1.23e10);
@@ -2261,7 +2252,7 @@ fn test_as_float64_non_numeric_type_conversion_failed() {
 #[test]
 fn test_float32_as_bool_conversion() {
     let f32_zero = Value::Float32(0.0);
-    let f32_nonzero = Value::Float32(3.14);
+    let f32_nonzero = Value::Float32(3.5);
 
     // Float32 does not support conversion to bool (only integer types support)
     assert!(f32_zero.as_bool().is_err());

@@ -1579,12 +1579,12 @@ fn test_multi_value_set_single_all_types() {
     assert_eq!(mv.get_chars().unwrap(), &['A']);
 
     let mut mv = MultiValues::Empty(DataType::Float32);
-    mv.set_float32(3.14).unwrap();
-    assert_eq!(mv.get_float32s().unwrap(), &[3.14]);
+    mv.set_float32(3.5).unwrap();
+    assert_eq!(mv.get_float32s().unwrap(), &[3.5]);
 
     let mut mv = MultiValues::Empty(DataType::Float64);
-    mv.set_float64(2.718).unwrap();
-    assert_eq!(mv.get_float64s().unwrap(), &[2.718]);
+    mv.set_float64(2.5).unwrap();
+    assert_eq!(mv.get_float64s().unwrap(), &[2.5]);
 }
 
 #[test]
@@ -1647,7 +1647,7 @@ fn test_multi_value_from_value_all_types() {
     let mv: MultiValues = v.into();
     assert_eq!(mv.data_type(), DataType::Bool);
     assert_eq!(mv.count(), 1);
-    assert_eq!(mv.get_first_bool().unwrap(), true);
+    assert!(mv.get_first_bool().unwrap());
 
     // Char type
     let v = Value::Char('X');
@@ -1730,18 +1730,18 @@ fn test_multi_value_from_value_all_types() {
     );
 
     // Float32 type
-    let v = Value::Float32(3.14);
+    let v = Value::Float32(3.5);
     let mv: MultiValues = v.into();
     assert_eq!(mv.data_type(), DataType::Float32);
     assert_eq!(mv.count(), 1);
-    assert!((mv.get_first_float32().unwrap() - 3.14).abs() < 0.01);
+    assert!((mv.get_first_float32().unwrap() - 3.5).abs() < 0.01);
 
     // Float64 type
-    let v = Value::Float64(2.718);
+    let v = Value::Float64(2.5);
     let mv: MultiValues = v.into();
     assert_eq!(mv.data_type(), DataType::Float64);
     assert_eq!(mv.count(), 1);
-    assert!((mv.get_first_float64().unwrap() - 2.718).abs() < 0.001);
+    assert!((mv.get_first_float64().unwrap() - 2.5).abs() < 0.001);
 
     // String type
     let v = Value::String("hello".to_string());
@@ -1825,7 +1825,7 @@ fn test_multi_value_add_all_types_mismatch_with_macro() {
         add_uint32, 42u32, "uint32";
         add_uint64, 1000u64, "uint64";
         add_uint128, 99999u128, "uint128";
-        add_float32, 3.14f32, "float32";
+        add_float32, 3.5f32, "float32";
         add_float64, 2.71f64, "float64";
         add_string, "test".to_string(), "string";
         add_date, NaiveDate::from_ymd_opt(2024, 1, 1).unwrap(), "date";
@@ -1987,8 +1987,8 @@ fn test_empty_to_all_integer_types_comprehensive() {
         DataType::UInt32, add_uint32, add_uint32s, add_uint32s_slice, get_first_uint32, 99999u32, vec![1000u32, 2000, 3000];
         DataType::UInt64, add_uint64, add_uint64s, add_uint64s_slice, get_first_uint64, 999999u64, vec![10000u64, 20000, 30000];
         DataType::UInt128, add_uint128, add_uint128s, add_uint128s_slice, get_first_uint128, 888888u128, vec![100000u128, 200000, 300000];
-        DataType::Float32, add_float32, add_float32s, add_float32s_slice, get_first_float32, 3.14f32, vec![1.1f32, 2.2, 3.3];
-        DataType::Float64, add_float64, add_float64s, add_float64s_slice, get_first_float64, 2.718f64, vec![1.11f64, 2.22, 3.33];
+        DataType::Float32, add_float32, add_float32s, add_float32s_slice, get_first_float32, 3.5f32, vec![1.1f32, 2.2, 3.3];
+        DataType::Float64, add_float64, add_float64s, add_float64s_slice, get_first_float64, 2.5f64, vec![1.11f64, 2.22, 3.33];
     }
 }
 
@@ -2008,8 +2008,8 @@ fn test_empty_type_mismatch_comprehensive() {
         add_uint32, 1000u32;
         add_uint64, 10000u64;
         add_uint128, 100000u128;
-        add_float32, 3.14f32;
-        add_float64, 2.718f64;
+        add_float32, 3.5f32;
+        add_float64, 2.5f64;
         add_string, "test".to_string();
     }
 
@@ -2019,7 +2019,7 @@ fn test_empty_type_mismatch_comprehensive() {
         add_bool, true;
         add_int32, 42i32;
         add_int64, 1000i64;
-        add_float64, 3.14f64;
+        add_float64, 3.5f64;
     }
 
     // Test adding other types to Empty(Bool) should error
@@ -2027,7 +2027,7 @@ fn test_empty_type_mismatch_comprehensive() {
         DataType::Bool, DataType::Bool;
         add_int32, 42i32;
         add_string, "test".to_string();
-        add_float64, 3.14f64;
+        add_float64, 3.5f64;
     }
 }
 
@@ -2175,12 +2175,12 @@ fn test_set_single_all_types() {
 
     // Test floating point types
     let mut mv = MultiValues::Empty(DataType::Float32);
-    mv.set_float32(3.14f32).unwrap();
-    assert_eq!(mv.get_float32s().unwrap(), &[3.14f32]);
+    mv.set_float32(3.5f32).unwrap();
+    assert_eq!(mv.get_float32s().unwrap(), &[3.5f32]);
 
     let mut mv = MultiValues::Empty(DataType::Float64);
-    mv.set_float64(2.718f64).unwrap();
-    assert_eq!(mv.get_float64s().unwrap(), &[2.718f64]);
+    mv.set_float64(2.5f64).unwrap();
+    assert_eq!(mv.get_float64s().unwrap(), &[2.5f64]);
 
     // Test strings type
     let mut mv = MultiValues::Empty(DataType::String);
@@ -2203,7 +2203,7 @@ fn test_set_vec_and_slice_all_types() {
 
     // Test set_bools_slice
     let mut mv = MultiValues::Bool(vec![false]);
-    let values = vec![true, true, false];
+    let values = [true, true, false];
     mv.set_bools_slice(&values[..]).unwrap();
     assert_eq!(mv.count(), 3);
     assert_eq!(mv.get_bools().unwrap(), &[true, true, false]);
@@ -2231,27 +2231,27 @@ fn test_set_vec_and_slice_all_types() {
 
     // Test integer types slice
     let mut mv = MultiValues::Int16(vec![999i16]);
-    let values = vec![10i16, 20, 30];
+    let values = [10i16, 20, 30];
     mv.set_int16s_slice(&values[..]).unwrap();
     assert_eq!(mv.get_int16s().unwrap(), &[10i16, 20, 30]);
 
     let mut mv = MultiValues::Int128(vec![888i128]);
-    let values = vec![100i128, 200, 300];
+    let values = [100i128, 200, 300];
     mv.set_int128s_slice(&values[..]).unwrap();
     assert_eq!(mv.get_int128s().unwrap(), &[100i128, 200, 300]);
 
     let mut mv = MultiValues::UInt16(vec![777u16]);
-    let values = vec![10u16, 20, 30];
+    let values = [10u16, 20, 30];
     mv.set_uint16s_slice(&values[..]).unwrap();
     assert_eq!(mv.get_uint16s().unwrap(), &[10u16, 20, 30]);
 
     let mut mv = MultiValues::UInt32(vec![666u32]);
-    let values = vec![100u32, 200, 300];
+    let values = [100u32, 200, 300];
     mv.set_uint32s_slice(&values[..]).unwrap();
     assert_eq!(mv.get_uint32s().unwrap(), &[100u32, 200, 300]);
 
     let mut mv = MultiValues::UInt128(vec![555u128]);
-    let values = vec![1000u128, 2000, 3000];
+    let values = [1000u128, 2000, 3000];
     mv.set_uint128s_slice(&values[..]).unwrap();
     assert_eq!(mv.get_uint128s().unwrap(), &[1000u128, 2000, 3000]);
 
@@ -2261,7 +2261,7 @@ fn test_set_vec_and_slice_all_types() {
     assert_eq!(mv.get_float32s().unwrap(), &[1.1f32, 2.2, 3.3]);
 
     let mut mv = MultiValues::Float64(vec![9.9f64]);
-    let values = vec![1.11f64, 2.22, 3.33];
+    let values = [1.11f64, 2.22, 3.33];
     mv.set_float64s_slice(&values[..]).unwrap();
     assert_eq!(mv.get_float64s().unwrap(), &[1.11f64, 2.22, 3.33]);
 
@@ -2272,7 +2272,7 @@ fn test_set_vec_and_slice_all_types() {
     assert_eq!(mv.get_strings().unwrap(), &["hello", "world"]);
 
     let mut mv = MultiValues::String(vec!["old".to_string()]);
-    let values = vec!["foo".to_string(), "bar".to_string()];
+    let values = ["foo".to_string(), "bar".to_string()];
     mv.set_strings_slice(&values[..]).unwrap();
     assert_eq!(mv.get_strings().unwrap(), &["foo", "bar"]);
 
@@ -2282,7 +2282,7 @@ fn test_set_vec_and_slice_all_types() {
     assert_eq!(mv.get_chars().unwrap(), &['a', 'b', 'c']);
 
     let mut mv = MultiValues::Char(vec!['z']);
-    let values = vec!['x', 'y'];
+    let values = ['x', 'y'];
     mv.set_chars_slice(&values[..]).unwrap();
     assert_eq!(mv.get_chars().unwrap(), &['x', 'y']);
 }
@@ -2445,7 +2445,7 @@ fn test_multi_value_add_type_mismatch_errors() {
 
     // Test add_float32 type mismatch
     let mut mv = MultiValues::Int32(vec![1, 2, 3]);
-    let result = mv.add_float32(3.14);
+    let result = mv.add_float32(3.5);
     assert!(matches!(result, Err(ValueError::TypeMismatch { .. })));
 
     // Test add_float64 type mismatch
@@ -2637,7 +2637,7 @@ fn test_multi_value_empty_add_single_conversion() {
     mv.add_bool(true).unwrap();
     assert_eq!(mv.data_type(), DataType::Bool);
     assert_eq!(mv.count(), 1);
-    assert_eq!(mv.get_first_bool().unwrap(), true);
+    assert!(mv.get_first_bool().unwrap());
 
     // Empty(Int32) + add_int32 -> Int32(vec![value])
     let mut mv = MultiValues::Empty(DataType::Int32);
@@ -2662,10 +2662,10 @@ fn test_multi_value_empty_add_single_conversion() {
 
     // Empty(Float64) + add_float64 -> Float64(vec![value])
     let mut mv = MultiValues::Empty(DataType::Float64);
-    mv.add_float64(3.14).unwrap();
+    mv.add_float64(3.5).unwrap();
     assert_eq!(mv.data_type(), DataType::Float64);
     assert_eq!(mv.count(), 1);
-    assert!((mv.get_first_float64().unwrap() - 3.14).abs() < 1e-10);
+    assert!((mv.get_first_float64().unwrap() - 3.5).abs() < 1e-10);
 
     // Empty(Date) + add_date -> Date(vec![value])
     let mut mv = MultiValues::Empty(DataType::Date);
@@ -2783,10 +2783,10 @@ fn test_multi_value_empty_add_single_conversion() {
 
     // Empty(Float32) + add_float32 -> Float32(vec![value])
     let mut mv = MultiValues::Empty(DataType::Float32);
-    mv.add_float32(2.718).unwrap();
+    mv.add_float32(2.5).unwrap();
     assert_eq!(mv.data_type(), DataType::Float32);
     assert_eq!(mv.count(), 1);
-    assert!((mv.get_first_float32().unwrap() - 2.718).abs() < 1e-3);
+    assert!((mv.get_first_float32().unwrap() - 2.5).abs() < 1e-3);
 }
 
 #[test]
@@ -3045,7 +3045,7 @@ fn test_multi_value_direct_add_type_mismatch() {
 
     // Create String MultiValues, try to add f64
     let mut mv = MultiValues::String(vec!["a".to_string()]);
-    let result = mv.add(3.14f64);
+    let result = mv.add(3.5f64);
     assert!(matches!(result, Err(ValueError::TypeMismatch { .. })));
 }
 
@@ -3101,11 +3101,11 @@ fn test_multi_values_first_getter_non_empty_branch() {
 
     let mv = MultiValues::Bool(vec![true, false, true]);
     let result: bool = mv.get_first().unwrap();
-    assert_eq!(result, true);
+    assert!(result);
 
-    let mv = MultiValues::Float64(vec![3.14, 2.718]);
+    let mv = MultiValues::Float64(vec![3.5, 2.5]);
     let result: f64 = mv.get_first().unwrap();
-    assert!((result - 3.14).abs() < 0.001);
+    assert!((result - 3.5).abs() < 0.001);
 }
 
 #[test]

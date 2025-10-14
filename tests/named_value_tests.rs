@@ -51,7 +51,7 @@ fn test_named_value_deref_mut_assignment() {
 #[test]
 fn test_named_value_get_bool() {
     let nv = NamedValue::new("b", Value::Bool(true));
-    assert_eq!(nv.get_bool().unwrap(), true);
+    assert!(nv.get_bool().unwrap());
 }
 
 #[test]

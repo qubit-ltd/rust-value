@@ -127,12 +127,12 @@ fn test_generic_set_vec_all_types() {
 fn test_generic_set_slice_all_types() {
     // int32 as representative style with slice; other types follow same path
     let mut mv = MultiValues::Empty(DataType::Int32);
-    let v = vec![10i32, 20, 30];
+    let v = [10i32, 20, 30];
     mv.set(&v[..]).unwrap();
     assert_eq!(mv.get_int32s().unwrap(), &[10, 20, 30]);
 
     let mut mv = MultiValues::Empty(DataType::String);
-    let s = vec!["x".to_string(), "y".to_string()];
+    let s = ["x".to_string(), "y".to_string()];
     mv.set(&s[..]).unwrap();
     assert_eq!(mv.get_strings().unwrap(), &["x", "y"]);
 
@@ -190,7 +190,7 @@ fn test_generic_add_slice_all_types() {
 
     // u8 now supports generic add slice
     let mut mv = MultiValues::UInt8(vec![1u8]);
-    let more = vec![2u8, 3u8, 4u8];
+    let more = [2u8, 3u8, 4u8];
     mv.add(&more[..]).unwrap();
     assert_eq!(mv.get_uint8s().unwrap(), &[1, 2, 3, 4]);
 }
