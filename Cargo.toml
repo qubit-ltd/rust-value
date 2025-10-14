@@ -1,0 +1,32 @@
+[package]
+name = "prism3-value"
+version = "0.1.0"
+edition = "2021"
+authors = ["Hu Haixing <starfish.hu@gmail.com>"]
+license = "Apache-2.0"
+repository = "https://github.com/3-prism/prism3-rust-value"
+description = "Value handling framework providing type-safe storage and access for single values, multi-values, and named values"
+
+[lib]
+name = "prism3_value"
+# doctest was disabled temporarily for migration; re-enable now by removing this section or setting true
+doctest = false
+
+[dependencies]
+# 核心依赖
+prism3-core = "0.1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0.17"
+tracing = "0.1"
+
+# 时间处理
+chrono = { version = "0.4", features = ["serde"] }
+
+# UUID 支持
+uuid = { version = "1.0", features = ["v4", "serde"] }
+
+# 数值处理
+num-traits = "0.2"
+num-bigint = { version = "0.4", features = ["serde"] }
+bigdecimal = { version = "0.4", features = ["serde"] }
