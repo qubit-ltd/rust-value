@@ -1,15 +1,29 @@
 [package]
 name = "prism3-value"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
+rust-version = "1.70"
 authors = ["Hu Haixing <starfish.hu@gmail.com>"]
 license = "Apache-2.0"
 repository = "https://github.com/3-prism/prism3-rust-value"
-description = "Value handling framework providing type-safe storage and access for single values, multi-values, and named values"
+description = "Type-safe value container framework with unified abstractions for single values, multi-values, and named values with complete serde support"
+homepage = "https://github.com/3-prism/prism3-rust-value"
+documentation = "https://docs.rs/prism3-value"
+readme = "README.md"
+keywords = ["value", "container", "type-safe", "serde", "prism3"]
+categories = ["data-structures", "config", "development-tools"]
+exclude = [
+    "coverage.sh",
+    "COVERAGE.md",
+    "COVERAGE.zh_CN.md",
+    ".circleci/*",
+    "ci-check.sh",
+    ".llvm-cov.toml",
+    ".cargo-audit.toml.example",
+]
 
 [lib]
 name = "prism3_value"
-# doctest was disabled temporarily for migration; re-enable now by removing this section or setting true
 doctest = false
 
 [dependencies]
