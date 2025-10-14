@@ -3270,7 +3270,7 @@ impl_multi_value_traits!(BigInt, BigInteger, DataType::BigInteger);
 impl_multi_value_traits!(BigDecimal, BigDecimal, DataType::BigDecimal);
 
 // Convenience adaptation: &str supported as input type for String
-impl<'b, 'a> MultiValuesSetArg<'a> for &'b str {
+impl MultiValuesSetArg<'_> for &str {
     type Item = String;
 
     fn apply(self, target: &mut MultiValues) -> ValueResult<()> {
@@ -3278,7 +3278,7 @@ impl<'b, 'a> MultiValuesSetArg<'a> for &'b str {
     }
 }
 
-impl<'b, 'a> MultiValuesSetArg<'a> for Vec<&'b str> {
+impl MultiValuesSetArg<'_> for Vec<&str> {
     type Item = String;
 
     fn apply(self, target: &mut MultiValues) -> ValueResult<()> {
@@ -3287,7 +3287,7 @@ impl<'b, 'a> MultiValuesSetArg<'a> for Vec<&'b str> {
     }
 }
 
-impl<'b, 'a> MultiValuesSetArg<'a> for &'b [&'b str] {
+impl<'b> MultiValuesSetArg<'_> for &'b [&'b str] {
     type Item = String;
 
     fn apply(self, target: &mut MultiValues) -> ValueResult<()> {
@@ -3296,7 +3296,7 @@ impl<'b, 'a> MultiValuesSetArg<'a> for &'b [&'b str] {
     }
 }
 
-impl<'b, 'a> MultiValuesAddArg<'a> for &'b str {
+impl MultiValuesAddArg<'_> for &str {
     type Item = String;
 
     fn apply_add(self, target: &mut MultiValues) -> ValueResult<()> {
@@ -3304,7 +3304,7 @@ impl<'b, 'a> MultiValuesAddArg<'a> for &'b str {
     }
 }
 
-impl<'b, 'a> MultiValuesAddArg<'a> for Vec<&'b str> {
+impl MultiValuesAddArg<'_> for Vec<&str> {
     type Item = String;
 
     fn apply_add(self, target: &mut MultiValues) -> ValueResult<()> {
@@ -3313,7 +3313,7 @@ impl<'b, 'a> MultiValuesAddArg<'a> for Vec<&'b str> {
     }
 }
 
-impl<'b, 'a> MultiValuesAddArg<'a> for &'b [&'b str] {
+impl<'b> MultiValuesAddArg<'_> for &'b [&'b str] {
     type Item = String;
 
     fn apply_add(self, target: &mut MultiValues) -> ValueResult<()> {
